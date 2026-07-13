@@ -1,3 +1,4 @@
+import 'package:expense_tracker/datetime/date_time_helper.dart';
 import 'package:expense_tracker/models/expense_item.dart';
 
 class ExpenseData {
@@ -46,5 +47,22 @@ class ExpenseData {
       }
     }
     return startOfWeek!;
+  }
+
+  Map<String, double> calculateDailyExpenseSummery() {
+    Map<String, double> dailyExpenseSummery = {};
+    for (var expense in overallExpenseList) {
+      String date = convertDateTimeToString(expense.dateTime);
+      double amount = double.parse(expense.amount);
+
+      if (dailyExpenseSummery.containsKey(date)) {
+        double currentAmount = dailyExpenseSummery[date]!;
+        currentAmount += amount;
+        dailyExpenseSummery[date] = currentAmount;
+      } else {
+        dailyExpenseSummery.addAll({date: amount});
+      }
+    }
+    return dailyExpenseSummery;
   }
 }
