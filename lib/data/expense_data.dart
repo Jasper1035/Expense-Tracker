@@ -1,7 +1,8 @@
 import 'package:expense_tracker/datetime/date_time_helper.dart';
 import 'package:expense_tracker/models/expense_item.dart';
+import 'package:flutter/material.dart';
 
-class ExpenseData {
+class ExpenseData extends ChangeNotifier {
   List<ExpenseItem> overallExpenseList = [];
 
   List<ExpenseItem> getAllExpenseList() {
@@ -10,10 +11,14 @@ class ExpenseData {
 
   void addNewExpense(ExpenseItem newExpense) {
     overallExpenseList.add(newExpense);
+
+    notifyListeners();
   }
 
   void deleteExpnese(ExpenseItem expense) {
     overallExpenseList.remove(expense);
+
+    notifyListeners();
   }
 
   String getDayName(DateTime dateTime) {
