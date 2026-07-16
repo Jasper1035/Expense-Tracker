@@ -68,7 +68,13 @@ class _HomePageState extends State<HomePage> {
         body: ListView.builder(
           itemCount: value.getAllExpenseList().length,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(title: Text(value.getAllExpenseList()[index].name));
+            return ListTile(
+              title: Text(value.getAllExpenseList()[index].name),
+              subtitle: Text(
+                value.getAllExpenseList()[index].dateTime.toString(),
+              ),
+              trailing: Text(value.getAllExpenseList()[index].amount),
+            );
           },
         ),
       ),
