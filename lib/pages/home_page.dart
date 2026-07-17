@@ -1,3 +1,4 @@
+import 'package:expense_tracker/components/expense_tile.dart';
 import 'package:expense_tracker/data/expense_data.dart';
 import 'package:expense_tracker/models/expense_item.dart';
 import 'package:flutter/material.dart';
@@ -65,17 +66,21 @@ class _HomePageState extends State<HomePage> {
           onPressed: addNewExpense,
           child: Icon(Icons.add),
         ),
-        body: ListView.builder(
-          itemCount: value.getAllExpenseList().length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(value.getAllExpenseList()[index].name),
-              subtitle: Text(
-                value.getAllExpenseList()[index].dateTime.toString(),
-              ),
-              trailing: Text(value.getAllExpenseList()[index].amount),
-            );
-          },
+        body: ListView(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: value.getAllExpenseList().length,
+              itemBuilder: (BuildContext context, int index) {
+                return ExpenseTile(
+                  name: value.getAllExpenseList()[index].name,
+                  amount: value.getAllExpenseList()[index].amount,
+                  dateTime: value.getAllExpenseList()[index].dateTime,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
