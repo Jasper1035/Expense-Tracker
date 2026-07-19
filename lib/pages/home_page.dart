@@ -1,3 +1,4 @@
+import 'package:expense_tracker/components/expense_summery.dart';
 import 'package:expense_tracker/components/expense_tile.dart';
 import 'package:expense_tracker/data/expense_data.dart';
 import 'package:expense_tracker/models/expense_item.dart';
@@ -61,26 +62,31 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<ExpenseData>(
       builder: (context, value, child) => Scaffold(
+        // appBar: AppBar(title: Text('no')),
         backgroundColor: Colors.grey[300],
         floatingActionButton: FloatingActionButton(
           onPressed: addNewExpense,
           child: Icon(Icons.add),
         ),
-        body: ListView(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: value.getAllExpenseList().length,
-              itemBuilder: (BuildContext context, int index) {
-                return ExpenseTile(
-                  name: value.getAllExpenseList()[index].name,
-                  amount: value.getAllExpenseList()[index].amount,
-                  dateTime: value.getAllExpenseList()[index].dateTime,
-                );
-              },
-            ),
-          ],
+        body: SafeArea(
+          minimum: EdgeInsets.only(top: 50),
+          child: ListView(
+            children: [
+              ExpenseSummery(startOfWeek: value.startOfWeekDate()),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: value.getAllExpenseList().length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ExpenseTile(
+                    name: value.getAllExpenseList()[index].name,
+                    amount: value.getAllExpenseList()[index].amount,
+                    dateTime: value.getAllExpenseList()[index].dateTime,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
