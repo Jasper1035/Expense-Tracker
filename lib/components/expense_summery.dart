@@ -1,25 +1,44 @@
 import 'package:expense_tracker/bar_graph/graph.dart';
 import 'package:expense_tracker/data/expense_data.dart';
+import 'package:expense_tracker/datetime/date_time_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseSummery extends StatelessWidget {
-  const ExpenseSummery({super.key, required DateTime startOfWeek});
+  final DateTime startOfWeek;
+
+  const ExpenseSummery({super.key, required this.startOfWeek});
 
   @override
   Widget build(BuildContext context) {
+    String sunday = convertDateTimeToString(startOfWeek.add(Duration(days: 0)));
+    String monday = convertDateTimeToString(startOfWeek.add(Duration(days: 1)));
+    String tuesday = convertDateTimeToString(
+      startOfWeek.add(Duration(days: 2)),
+    );
+    String wednesday = convertDateTimeToString(
+      startOfWeek.add(Duration(days: 3)),
+    );
+    String thursday = convertDateTimeToString(
+      startOfWeek.add(Duration(days: 4)),
+    );
+    String friday = convertDateTimeToString(startOfWeek.add(Duration(days: 5)));
+    String saturday = convertDateTimeToString(
+      startOfWeek.add(Duration(days: 6)),
+    );
+
     return Consumer<ExpenseData>(
       builder: (context, value, child) => SizedBox(
         height: 200,
         child: Graph(
           maxY: 100,
-          sunAmount: 20,
-          monAmount: 50,
-          tueAmount: 10,
-          wedAmount: 30,
-          thurAmount: 25,
-          friAmount: 24,
-          satAmount: 90,
+          sunAmount: value.calculateDailyExpenseSummery()[sunday] ?? 0,
+          monAmount: value.calculateDailyExpenseSummery()[monday] ?? 0,
+          tueAmount: value.calculateDailyExpenseSummery()[tuesday] ?? 0,
+          wedAmount: value.calculateDailyExpenseSummery()[wednesday] ?? 0,
+          thurAmount: value.calculateDailyExpenseSummery()[thursday] ?? 0,
+          friAmount: value.calculateDailyExpenseSummery()[friday] ?? 0,
+          satAmount: value.calculateDailyExpenseSummery()[saturday] ?? 0,
         ),
       ),
     );
