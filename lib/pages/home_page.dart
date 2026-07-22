@@ -14,7 +14,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final newExpenseNameController = TextEditingController();
-  final newExpenseAmountController = TextEditingController();
+  final newExpenseDollarController = TextEditingController();
+  final newExpenseCentController = TextEditingController();
 
   void addNewExpense() {
     showDialog(
@@ -24,8 +25,32 @@ class _HomePageState extends State<HomePage> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: newExpenseNameController),
-            TextField(controller: newExpenseAmountController),
+            TextField(
+              controller: newExpenseNameController,
+              decoration: InputDecoration(hintText: 'Expense name'),
+            ),
+            // TextField(controller: newExpenseAmountController),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: newExpenseDollarController,
+                    decoration: InputDecoration(hintText: 'Dollars'),
+
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+
+                Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+
+                    controller: newExpenseCentController,
+                    decoration: InputDecoration(hintText: 'Cents'),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
 
@@ -38,9 +63,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void save() {
+    String amount =
+        '${newExpenseDollarController.text}.${newExpenseCentController.text}';
+
     ExpenseItem newExpense = ExpenseItem(
       name: newExpenseNameController.text,
-      amount: newExpenseAmountController.text,
+      amount: amount,
       dateTime: DateTime.now(),
     );
 
@@ -49,12 +77,14 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
 
     newExpenseNameController.clear();
-    newExpenseAmountController.clear();
+    newExpenseDollarController.clear();
+    newExpenseCentController.clear();
   }
 
   void cancel() {
     Navigator.pop(context);
-    newExpenseAmountController.clear();
+    newExpenseDollarController.clear();
+    newExpenseCentController.clear();
     newExpenseNameController.clear();
   }
 
@@ -66,7 +96,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[300],
         floatingActionButton: FloatingActionButton(
           onPressed: addNewExpense,
-          child: Icon(Icons.add),
+          backgroundColor: Colors.black,
+          child: Icon(Icons.add, color: Colors.white),
         ),
         body: SafeArea(
           minimum: EdgeInsets.only(top: 50),
